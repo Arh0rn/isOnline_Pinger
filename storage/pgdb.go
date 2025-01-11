@@ -2,6 +2,8 @@ package storage
 
 import (
 	"database/sql"
+	"fmt"
+	"github.com/Arh0rn/isOnline_Pinger/config"
 	_ "github.com/lib/pq"
 	"strconv"
 )
@@ -14,8 +16,19 @@ func NewPgdb() *Pgdb {
 	return &Pgdb{}
 }
 
-func (pgdb *Pgdb) ConnectDB() error {
-	db, err := sql.Open("postgres", "host=localhost user=postgres dbname=isonline_pinger sslmode=disable password=postgres")
+func (pgdb *Pgdb) ConnectDB(configPath string) error {
+	conf, err := config.LoadConfig(configPath)
+
+	if err != nil {
+		return fmt.Errorf("failed to load config: %v", err)
+	}
+
+	dsn := fmt.Sprintf(
+		"host=%s user=%s dbname=%s sslmode=%s password=%s",
+		conf.DBHost, conf.DBUser, conf.DBName, conf.SSLMode, conf.DBPassword,
+	)
+
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return err
 	}

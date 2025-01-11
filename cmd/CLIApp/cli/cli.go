@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const configPath = "config/config.json"
+
 func RunCLI() {
 	u, p := startMenu()
 	RunPool(u, p)
@@ -18,7 +20,10 @@ func RunCLI() {
 
 func startMenu() ([]storage.Url, storage.Parameters) {
 	db := storage.NewPgdb()
-	db.ConnectDB()
+	err := db.ConnectDB(configPath)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	var input int
 	PrintInfo()
@@ -84,7 +89,7 @@ func startMenu() ([]storage.Url, storage.Parameters) {
 		}
 	}
 
-	urls, err := db.GetUrls()
+	urls, err = db.GetUrls()
 	if err != nil {
 		log.Fatal(err)
 	}
