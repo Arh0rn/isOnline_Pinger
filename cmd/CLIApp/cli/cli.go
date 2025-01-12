@@ -26,11 +26,11 @@ func RunCLI() {
 }
 
 func startMenu(conf *config.Config) ([]models.Url, models.Parameters) {
-	db, err := storage.NewDB(*conf)
+	db, err := storage.NewDBfrom(*conf)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = db.ConnectDB(conf)
+	err = db.ConnectDB(*conf)
 	if err != nil {
 		log.Fatal(err)
 	}

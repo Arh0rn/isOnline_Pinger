@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/Arh0rn/isOnline_Pinger/config"
 	"github.com/Arh0rn/isOnline_Pinger/models"
+	"github.com/Arh0rn/isOnline_Pinger/storage"
 	_ "github.com/lib/pq"
 )
 
@@ -12,11 +13,11 @@ type Pgdb struct {
 	db *sql.DB
 }
 
-func NewPgdb() *Pgdb {
+func NewPgdb() storage.DB {
 	return &Pgdb{}
 }
 
-func (pgdb *Pgdb) ConnectDB(conf *config.Config) error {
+func (pgdb *Pgdb) ConnectDB(conf config.Config) error {
 
 	dsn := fmt.Sprintf(
 		"host=%s user=%s dbname=%s sslmode=%s password=%s",
@@ -96,4 +97,9 @@ func (pgdb *Pgdb) SetParameters(p models.Parameters) error {
 		return err
 	}
 	return nil
+}
+
+func init() {
+	storage.RegisterDB("postgres", NewPgdb)
+
 }
