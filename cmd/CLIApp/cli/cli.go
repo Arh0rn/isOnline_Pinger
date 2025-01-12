@@ -2,6 +2,8 @@ package cli
 
 import (
 	"fmt"
+	"github.com/Arh0rn/isOnline_Pinger/config"
+	"github.com/Arh0rn/isOnline_Pinger/models"
 	"github.com/Arh0rn/isOnline_Pinger/storage"
 	"github.com/Arh0rn/isOnline_Pinger/workerpool"
 	"log"
@@ -14,13 +16,21 @@ import (
 const configPath = "config/config.json"
 
 func RunCLI() {
-	u, p := startMenu()
+	conf, err := config.LoadConfig(configPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	u, p := startMenu(conf)
 	RunPool(u, p)
 }
 
-func startMenu() ([]storage.Url, storage.Parameters) {
-	db := storage.NewPgdb()
-	err := db.ConnectDB(configPath)
+func startMenu(conf *config.Config) ([]models.Url, models.Parameters) {
+	db, err := storage.NewDB(*conf)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = db.ConnectDB(conf)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,7 +38,7 @@ func startMenu() ([]storage.Url, storage.Parameters) {
 	var input int
 	PrintInfo()
 
-	var urls []storage.Url
+	var urls []models.Url
 	var out bool = false
 	for {
 		if out {
@@ -100,7 +110,7 @@ func startMenu() ([]storage.Url, storage.Parameters) {
 	return urls, parameters
 }
 
-func RunPool(u []storage.Url, p storage.Parameters) {
+func RunPool(u []models.Url, p models.Parameters) {
 	fmt.Println("Pool started")
 	defer fmt.Println("Exiting...")
 
@@ -114,7 +124,7 @@ func RunPool(u []storage.Url, p storage.Parameters) {
 	gracefulShutdown(wp)
 }
 
-func generateJobs(wp *workerpool.Pool, urls []storage.Url, interval int) {
+func generateJobs(wp *workerpool.Pool, urls []models.Url, interval int) {
 	for {
 		for _, url := range urls {
 			wp.Push(url.URL)
@@ -134,15 +144,4 @@ func gracefulShutdown(wp *workerpool.Pool) {
 	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
 	<-stop
 	wp.Stop()
-}
-
-func PrintInfo() {
-	fmt.Println("isOnline_Pinger")
-	fmt.Println("Choose an option:")
-	fmt.Println("1. show urls")
-	fmt.Println("2. add url")
-	fmt.Println("3. delete url")
-	fmt.Println("4. show parameters")
-	fmt.Println("5. edit parameters")
-	fmt.Println("6. start")
 }

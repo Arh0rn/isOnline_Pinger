@@ -6,6 +6,7 @@ import (
 )
 
 type Config struct {
+	DBMS       string `json:"dbms"`
 	DBHost     string `json:"db_host"`
 	DBPort     int    `json:"db_port"`
 	DBUser     string `json:"db_user"`
