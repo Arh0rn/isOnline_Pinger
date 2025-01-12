@@ -101,5 +101,4 @@ func (pgdb *Pgdb) SetParameters(p models.Parameters) error {
 
 func init() {
 	storage.RegisterDB("postgres", NewPgdb)
-
 }

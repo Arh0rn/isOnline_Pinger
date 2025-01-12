@@ -29,3 +29,22 @@ func LoadConfig(configPath string) (*Config, error) {
 
 	return &config, nil
 }
+
+//{
+//  "dbms": "postgres",
+//  "db_host": "localhost",
+//  "db_port": 5432,
+//  "db_user": "postgres",
+//  "db_password": "postgres",
+//  "db_name": "isonline_pinger",
+//  "ssl_mode": "disable"
+//}
+//{
+//"dbms": "mongodb",
+//"db_host": "localhost",
+//"db_port": 27017,
+//"db_user": "",
+//"db_password": "",
+//"db_name": "isonline_pinger",
+//"ssl_mode": "disable"
+//}

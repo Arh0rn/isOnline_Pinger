@@ -30,14 +30,14 @@ func NewDBfrom(conf config.Config) (DB, error) {
 		return nil, errors.New("unsupported DBMS type: " + conf.DBMS)
 	}
 	return factory(), nil
-	//switch conf.DBMS {
-	//case "postgres":
-	//	return postgres.NewPgdb(), nil
-	//case "mongodb":
-	//	//TODO: implement mongodb
-	//	return nil, errors.New("MongoDB support not implemented yet")
-	//default:
-	//	return nil, errors.New("unsupported DBMS type: " + conf.DBMS)
-	//}
-
 }
+
+//switch conf.DBMS {
+//case "postgres":
+//	return postgres.NewPgdb(), nil
+//case "mongodb":
+//	//TODO: implement mongodb
+//	return nil, errors.New("MongoDB support not implemented yet")
+//default:
+//	return nil, errors.New("unsupported DBMS type: " + conf.DBMS)
+//}
