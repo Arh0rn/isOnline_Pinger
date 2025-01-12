@@ -12,8 +12,8 @@ type Pgdb struct {
 	db *sql.DB
 }
 
-func NewPgdb() *Pgdb {
-	return &Pgdb{}
+func (db *Pgdb) NewDBfrom(conf *config.Config) {
+	db = &Pgdb{}
 }
 
 func (pgdb *Pgdb) ConnectDB(conf *config.Config) error {
