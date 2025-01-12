@@ -110,6 +110,17 @@ func startMenu(conf *config.Config) ([]models.Url, models.Parameters) {
 	return urls, parameters
 }
 
+func PrintInfo() {
+	fmt.Println("isOnline_Pinger")
+	fmt.Println("Choose an option:")
+	fmt.Println("1. show urls")
+	fmt.Println("2. add url")
+	fmt.Println("3. delete url")
+	fmt.Println("4. show parameters")
+	fmt.Println("5. edit parameters")
+	fmt.Println("6. start")
+}
+
 func RunPool(u []models.Url, p models.Parameters) {
 	fmt.Println("Pool started")
 	defer fmt.Println("Exiting...")
