@@ -19,7 +19,7 @@ func (u Url) String() string {
 }
 
 func (p Parameters) String() string {
-	return "Timeout: " + string(strconv.Itoa(p.Timeout)) + "Sec" + "\n" +
-		"Interval: " + string(strconv.Itoa(p.Interval)) + "Sec" + "\n" +
-		"Workers: " + string(strconv.Itoa(p.Workers)) + "\n"
+	return "Timeout: " + strconv.Itoa(p.Timeout) + "Sec" + "\n" +
+		"Interval: " + strconv.Itoa(p.Interval) + "Sec" + "\n" +
+		"Workers: " + strconv.Itoa(p.Workers) + "\n"
 }
