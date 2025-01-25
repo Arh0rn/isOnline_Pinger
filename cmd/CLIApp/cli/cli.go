@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-const configPath = "config/config.json"
+const configPath = "config/config.toml"
 
 func RunCLI() {
 	conf, err := config.LoadConfig(configPath)
