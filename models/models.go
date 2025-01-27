@@ -3,15 +3,15 @@ package models
 import "strconv"
 
 type Url struct {
-	ID  int    `json:"id"`
-	URL string `json:"url"`
+	ID  int    `db:"id"`
+	URL string `db:"url"`
 }
 
 type Parameters struct {
-	ID       int `json:"id"`
-	Timeout  int `json:"timeout"`
-	Interval int `json:"interval"`
-	Workers  int `json:"workers"`
+	ID       int `db:"id"`
+	Timeout  int `db:"timeout"`
+	Interval int `db:"interval"`
+	Workers  int `db:"workers"`
 }
 
 func (u Url) String() string {

@@ -1,9 +1,0 @@
-{
-"dbms": "mongodb",
-"db_host": "localhost",
-"db_port": 27017,
-"db_user": "",
-"db_password": "",
-"db_name": "isonline_pinger",
-"ssl_mode": "disable"
-}
