@@ -7,6 +7,7 @@ import (
 	"github.com/Arh0rn/isOnline_Pinger/models"
 	"github.com/Arh0rn/isOnline_Pinger/storage"
 	_ "github.com/lib/pq"
+	"os"
 )
 
 type Pgdb struct {
@@ -21,7 +22,11 @@ func (pgdb *Pgdb) ConnectDB(conf config.Config) error {
 
 	dsn := fmt.Sprintf(
 		"host=%s user=%s dbname=%s sslmode=%s password=%s",
-		conf.DBHost, conf.DBUser, conf.DBName, conf.SSLMode, conf.DBPassword,
+		os.Getenv("POSTGRES_HOST"),
+		os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_DB_NAME"),
+		conf.SSLMode,
+		os.Getenv("POSTGRES_PASSWORD"),
 	)
 
 	db, err := sql.Open("postgres", dsn)

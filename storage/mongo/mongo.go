@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"os"
 )
 
 type MDB struct {
@@ -26,13 +27,22 @@ var ctx = context.TODO()
 
 func (mdb *MDB) ConnectDB(conf config.Config) error {
 	uri := "mongodb://"
-	if conf.DBUser != "" && conf.DBPassword != "" {
+	dbName := os.Getenv("MONGO_DB_NAME")
+	if os.Getenv("MONGO_USER") != "" && os.Getenv("MONGO_USER") != "" {
 		uri = fmt.Sprintf("mongodb://%s:%s@%s:%s/%s",
-			conf.DBUser, conf.DBPassword, conf.DBHost, conf.DBPort, conf.DBName)
+			os.Getenv("MONGO_USER"),
+			os.Getenv("MONGO_PASSWORD"),
+			os.Getenv("MONGO_HOST"),
+			os.Getenv("MONGO_PORT"),
+			dbName,
+		)
 	} else {
 		// In case no username/password is needed, just construct URI without authentication.
 		uri = fmt.Sprintf("mongodb://%s:%v/%s",
-			conf.DBHost, conf.DBPort, conf.DBName)
+			os.Getenv("MONGO_HOST"),
+			os.Getenv("MONGO_PORT"),
+			dbName,
+		)
 	}
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
@@ -44,9 +54,9 @@ func (mdb *MDB) ConnectDB(conf config.Config) error {
 	}
 
 	mdb.client = client
-	mdb.urls = client.Database(conf.DBName).Collection("urls")
-	mdb.params = client.Database(conf.DBName).Collection("parameters")
-	mdb.idCounter = client.Database(conf.DBName).Collection("idCounter")
+	mdb.urls = client.Database(dbName).Collection("urls")
+	mdb.params = client.Database(dbName).Collection("parameters")
+	mdb.idCounter = client.Database(dbName).Collection("idCounter")
 	return nil
 }
 
